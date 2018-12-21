@@ -1,11 +1,16 @@
+//the two image instances to compare
 PImage i1,i2;
+//bloc size for the MPEG compression
 int tailleBloc=16;
+//bloc size to run through
 int espace=32;
 int pas=24;
 int blocCount=0;
 int xb=0,yb=0;
+//example not used :3
 int jj=29,ii=28;
 int nbp=8,cnbp=0;
+//mse not used :3
 ArrayList<Float> l=new ArrayList<Float>();
 void setup(){
   size(1920,1080);
@@ -13,6 +18,7 @@ void setup(){
   loadImages(0,1);
   i2.loadPixels();
 }
+// shows the difference MATRIX
 void afficheDiff(Point blocSimilaire,Point blocSource){
   int[][] d=diffMatrix(blocSimilaire,blocSource);
   /////
@@ -48,6 +54,7 @@ void afficheDiff(Point blocSimilaire,Point blocSource){
     }
   }
 }
+//get search bloc limites
 Point[] limites(Point bloc,PImage i){
   Point[] lim=new Point[4];
   Point p1=new Point(bloc.x-espace,bloc.y-espace);Point p2=new Point(bloc.x+espace-1-tailleBloc,bloc.y-espace);
@@ -93,6 +100,7 @@ boolean changed(Point bloc){
   if(d<1000) return false;else return true;
   //return false;
 }
+// get the difference matrix
 int[][] diffMatrix(Point blocSimilaire,Point blocSource){
   int[][] d=new int[tailleBloc][tailleBloc];
   for(int i=0;i<tailleBloc;i++){
@@ -117,6 +125,7 @@ double diff2(Point blocSimilaire,Point blocSource){
   }
   return mse/(double)(tailleBloc*tailleBloc);
 }
+// most similar bloc (iteratif search algorithme)
 Point search(Point blocSource){
   double min=diff2(blocSource,blocSource);
   double mse=0;
@@ -155,6 +164,7 @@ void draw(){
   i2.updatePixels();
   //stop();
 }
+// most similar bloc (dichotomic search algorithme)
 Point searchDicho(Point blocSource){
   Point blocPlusSimilaire=new Point(blocSource.x,blocSource.y);
   Point blocSimilaire1=new Point(blocSource.x,blocSource.y);
